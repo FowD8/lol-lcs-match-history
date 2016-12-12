@@ -1,26 +1,24 @@
 require 'json'
-
-require 'json'
 require 'net/http'
 require 'httparty'
 require 'pry'
 require 'awesome_print'
 
 # Change this to the title of the season you want
-SEASON_TOURNAMENT_CONST = "na_2016_summer"
+SEASON_CONST = "na_2016_summer"
 
 json_response = HTTParty.get("http://api.lolesports.com/api/v1/scheduleItems?leagueId=2").parsed_response
 
 tournaments = json_response["highlanderTournaments"]
 
-SEASON_TOURNAMENT_CONST = nil
+season_tournament = nil
 tournaments.each do |t|
-    SEASON_TOURNAMENT_CONST = t if t["title"] == "na_2016_summer"
+    season_tournament = t if t["title"] == SEASON_CONST
 end
 
-tournament_id = SEASON_TOURNAMENT_CONST["id"]
+tournament_id = season_tournament["id"]
 
-brackets = SEASON_TOURNAMENT_CONST["brackets"]
+brackets = season_tournament["brackets"]
 
 regular_season = nil
 brackets.each do |k, v|
